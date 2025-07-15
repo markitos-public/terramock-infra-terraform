@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "google" {
-  credentials = file("${path.module}/../terramock-nogit-assets/key.json")
+  credentials = file("${path.module}/../terramock-nogit-assets/terramock-terraform-role.json")
   project = var.project_id
   region  = var.region
   zone    = var.zone
