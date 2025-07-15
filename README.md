@@ -95,9 +95,9 @@ gcloud projects add-iam-policy-binding TU_PROJECT_ID \
 ## Ejemplo de fichero terraform.tfvars
 
 ```hcl
-project_id    = "terramock"
-region        = "us-central1"
-zone          = "us-central1-a"
+project_id      = "terramock"
+region          = "us-central1"
+zone            = "us-central1-a"
 cloud_run_image = "us-central1-docker.pkg.dev/terramock/terramock-docker-registry/terramock-app-frontend:1.2.3"
 ```
 
