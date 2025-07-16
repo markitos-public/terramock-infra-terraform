@@ -37,3 +37,6 @@ override.tf.json
 terraform.rc
 key.json
 plan
+plan*
+# Ignore local configuration files
+*.local.tf
