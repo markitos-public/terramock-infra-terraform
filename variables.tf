@@ -1,5 +1,5 @@
-variable "instance_image" {
-  description = "The image to use for the instance."
+variable "image_name" {
+  description = "The name of the Docker image to deploy on Cloud Run or other services."
   type        = string
 }
 

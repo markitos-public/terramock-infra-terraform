@@ -1,8 +1,44 @@
 # terramock-infra-terraform
 
-## Infraestructura como código para TerraMock
+## Instalación de CLI necesarios
 
-Automatiza la creación de red, firewall y despliegue de servicios en Google Cloud Platform usando Terraform.
+Para trabajar con la infraestructura de TerraMock en Google Cloud Platform, asegúrate de tener instaladas las siguientes herramientas en tu entorno:
+
+---
+
+### 1. [Google Cloud SDK (gcloud)](https://cloud.google.com/sdk/docs/install)
+
+```sh
+sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates gnupg
+
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+
+sudo apt-get update && sudo apt-get install -y google-cloud-sdk
+```
+---
+
+### 2. [Terraform](https://www.terraform.io/downloads.html)
+
+```sh
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+
+sudo add-apt-repository --yes ppa:hashicorp/terraform
+
+sudo apt-get update && sudo apt-get install -y terraform
+```
+---
+
+### 3. [Docker](https://docs.docker.com/get-docker/)
+
+```sh
+sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+
+echo "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
+
+sudo apt-get update && sudo apt-get install -y docker-ce
+```
 
 ---
 
@@ -11,7 +47,7 @@ Automatiza la creación de red, firewall y despliegue de servicios en Google Clo
 - `project_id`: ID de tu proyecto en GCP (ejemplo: `terramock`)
 - `region`: Región donde desplegar los recursos (ejemplo: `us-central1`)
 - `zone`: Zona por defecto para recursos zonales (ejemplo: `us-central1-a`)
-- `cloud_run_image`: Imagen Docker completa para desplegar en Cloud Run (ejemplo: `us-central1-docker.pkg.dev/terramock/terramock-docker-registry/terramock-app-frontend:1.2.3`)
+- `instance_image`: Imagen Docker completa para desplegar en Cloud Run (ejemplo: `us-central1-docker.pkg.dev/terramock/terramock-docker-registry/terramock-app-frontend:1.2.3`)
 
 Puedes definirlas en un fichero `terraform.tfvars` o exportarlas como variables de entorno `TF_VAR_<nombre>`.
 
@@ -34,17 +70,17 @@ Puedes definirlas en un fichero `terraform.tfvars` o exportarlas como variables 
 
 - **Planificar cambios:**
   ```sh
-  terraform plan -var="project_id=terramock" -var="region=us-central1" -var="zone=us-central1-a" -var="cloud_run_image=us-central1-docker.pkg.dev/terramock/terramock-docker-registry/terramock-app-frontend:1.2.3"
+  terraform plan -var="project_id=terramock" -var="region=us-central1" -var="zone=us-central1-a" -var="image_name=us-central1-docker.pkg.dev/terramock/terramock-docker-registry/terramock-app-frontend:1.2.3"
   ```
 
 - **Aplicar cambios:**
   ```sh
-  terraform apply -var="project_id=terramock" -var="region=us-central1" -var="zone=us-central1-a" -var="cloud_run_image=us-central1-docker.pkg.dev/terramock/terramock-docker-registry/terramock-app-frontend:1.2.3"
+  terraform apply -var="project_id=terramock" -var="region=us-central1" -var="zone=us-central1-a" -var="image_name=us-central1-docker.pkg.dev/terramock/terramock-docker-registry/terramock-app-frontend:1.2.3"
   ```
 
 - **Destruir recursos:**
   ```sh
-  terraform destroy -var="project_id=terramock" -var="region=us-central1" -var="zone=us-central1-a" -var="cloud_run_image=us-central1-docker.pkg.dev/terramock/terramock-docker-registry/terramock-app-frontend:1.2.3"
+  terraform destroy -var="project_id=terramock" -var="region=us-central1" -var="zone=us-central1-a" -var="image_name=us-central1-docker.pkg.dev/terramock/terramock-docker-registry/terramock-app-frontend:1.2.3"
   ```
 
 ---
@@ -75,14 +111,6 @@ gcloud projects add-iam-policy-binding TU_PROJECT_ID \
 
 ---
 
-## 📦 Outputs útiles
-
-- `cloud_run_service_url`: URL pública del servicio Cloud Run desplegado.
-- `cloud_run_service_name`: Nombre del servicio Cloud Run.
-- `cloud_run_service_location`: Región de despliegue.
-
----
-
 ## 📝 Notas
 
 - Asegúrate de tener la API de Cloud Run habilitada en el proyecto.
@@ -92,16 +120,6 @@ gcloud projects add-iam-policy-binding TU_PROJECT_ID \
 
 ---
 
-## Ejemplo de fichero terraform.tfvars
-
-```hcl
-project_id      = "terramock"
-region          = "us-central1"
-zone            = "us-central1-a"
-cloud_run_image = "us-central1-docker.pkg.dev/terramock/terramock-docker-registry/terramock-app-frontend:1.2.3"
-```
-
----
 
 ## Referencias
 - [Terraform Google Provider](https://registry.terraform.io/providers/hashicorp/google/latest/docs)

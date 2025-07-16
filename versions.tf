@@ -1,7 +1,3 @@
-locals {
-  credentials = "${path.module}/../terramock-nogit-assets/terramock-terraform-role.json"
-}
-
 terraform {
   required_version = ">= 1.12.0, < 2.0.0"
 
@@ -14,7 +10,7 @@ terraform {
 }
 
 provider "google" {
-  credentials = file(local.credentials)
+  credentials = "${path.module}/../terramock-nogit-assets/terramock-terraform-role.json"
   project     = var.project_id
   region      = var.region
   zone        = var.zone
