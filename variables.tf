@@ -1,7 +1,8 @@
-variable "cloud_run_image" {
-  description = "The full name of the Docker image to deploy to Cloud Run (includes repo, name, and tag)"
+variable "instance_image" {
+  description = "The image to use for the instance."
   type        = string
 }
+
 variable "project_id" {
   description = "The ID of the Google Cloud project to use."
   type        = string
